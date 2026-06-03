@@ -6,26 +6,165 @@
 
   <title>Polymarket Presentation</title>
 
-  <meta name="description" content="Apresentação sobre a Polymarket" />
+  <meta name="description" content="Polymarket Presentation" />
   <meta property="og:title" content="Polymarket Presentation" />
-  <meta property="og:description" content="Apresentação sobre a Polymarket" />
+  <meta property="og:description" content="Polymarket Presentation" />
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-snap-type: y mandatory;
+      background: #050505;
+    }
+
     body {
       margin: 0;
       background: #050505;
       font-family: Arial, sans-serif;
+      color: white;
+      overflow-x: hidden;
     }
 
-    iframe {
-      width: 100vw;
+    .slide {
+      width: 100%;
       height: 100vh;
-      border: none;
+      background: #050505;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      scroll-snap-align: start;
+      position: relative;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #050505;
       display: block;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 18px;
+      left: 24px;
+      right: 24px;
+      z-index: 50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .brand {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: rgba(255,255,255,0.92);
+    }
+
+    .counter {
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .hint {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      color: rgba(255,255,255,0.45);
+      font-size: 13px;
+      pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      .topbar {
+        top: 14px;
+        left: 16px;
+        right: 16px;
+      }
+
+      .brand {
+        font-size: 14px;
+      }
+
+      .counter {
+        font-size: 12px;
+      }
+
+      .hint {
+        font-size: 12px;
+        bottom: 14px;
+      }
     }
   </style>
 </head>
 <body>
-  <iframe src="polymarket.pdf"></iframe>
+
+  <div class="topbar">
+    <div class="brand">Polymarket</div>
+    <div class="counter" id="counter">1 / 20</div>
+  </div>
+
+  <section class="slide"><video src="1.mp4" muted playsinline preload="metadata"></video></section>
+  <section class="slide"><video src="2.mp4" muted playsinline preload="metadata"></video></section>
+  <section class="slide"><video src="3.mp4" muted playsinline preload="metadata"></video></section>
+  <section class="slide"><video src="4.mp4" muted playsinline preload="metadata"></video></section>
+  <section class="slide"><video src="5.mp4" muted playsinline preload="metadata"></video></section>
+  <section class="slide"><video src="6.mp4" muted playsinline preload="metadata"></video></section>
+  <section class="slide"><video src="7.mp4" muted playsinline preload="metadata"></video></section>
+  <section class="slide"><video src="8.mp4" muted playsinline preload="metadata"></video></section>
+  <section class="slide"><video src="9.mp4" muted playsinline preload="metadata"></video></section>
+  <section class="slide"><video src="10.mp4" muted playsinline preload="metadata"></video></section>
+  <section class="slide"><video src="11.mp4" muted playsinline preload="metadata"></video></section>
+  <section class="slide"><video src="12.mp4" muted playsinline preload="metadata"></video></section>
+  <section class="slide"><video src="13.mp4" muted playsinline preload="metadata"></video></section>
+  <section class="slide"><video src="14.mp4" muted playsinline preload="metadata"></video></section>
+  <section class="slide"><video src="15.mp4" muted playsinline preload="metadata"></video></section>
+  <section class="slide"><video src="16.mp4" muted playsinline preload="metadata"></video></section>
+  <section class="slide"><video src="17.mp4" muted playsinline preload="metadata"></video></section>
+  <section class="slide"><video src="18.mp4" muted playsinline preload="metadata"></video></section>
+  <section class="slide"><video src="19.mp4" muted playsinline preload="metadata"></video></section>
+  <section class="slide"><video src="20.mp4" muted playsinline preload="metadata"></video></section>
+
+  <div class="hint">Role para continuar</div>
+
+  <script>
+    const videos = document.querySelectorAll("video");
+    const counter = document.getElementById("counter");
+    const totalSlides = videos.length;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const video = entry.target;
+        const index = Array.from(videos).indexOf(video);
+
+        if (entry.isIntersecting) {
+          counter.textContent = `${index + 1} / ${totalSlides}`;
+          video.currentTime = 0;
+          video.play();
+        } else {
+          video.pause();
+        }
+      });
+    }, {
+      threshold: 0.65
+    });
+
+    videos.forEach(video => {
+      observer.observe(video);
+
+      video.addEventListener("ended", () => {
+        video.pause();
+      });
+    });
+  </script>
+
 </body>
 </html>
